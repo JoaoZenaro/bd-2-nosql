@@ -25,4 +25,4 @@ EXPOSE 8080
 
 CMD ["sleep", "infinity"]
 
-ENTRYPOINT ["java", "-jar", "mongo-local.jar"]
+# ENTRYPOINT ["java", "-jar", "mongo-local.jar"]
