@@ -23,4 +23,6 @@ COPY --from=build /home/app/target/mongo-local-0.0.1-SNAPSHOT.jar mongo-local.ja
 
 EXPOSE 8080
 
+CMD ["sleep", "infinity"]
+
 ENTRYPOINT ["java", "-jar", "mongo-local.jar"]
