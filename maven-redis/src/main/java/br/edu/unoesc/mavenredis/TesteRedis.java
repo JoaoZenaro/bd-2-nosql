@@ -2,10 +2,8 @@ package br.edu.unoesc.mavenredis;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.util.JedisURIHelper;
 
 public class TesteRedis {
     public static void main(String[] args) {
