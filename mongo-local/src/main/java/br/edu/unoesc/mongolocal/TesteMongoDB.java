@@ -35,7 +35,8 @@ import com.mongodb.client.model.Projections;
 public class TesteMongoDB {
 	private static final Logger LOG = LoggerFactory.getLogger(TesteMongoDB.class);
 	private static final String BANCO = "unoesc2023";
-	private static final String CONEXAO = System.getenv("MONGODB_URL");
+	private static final String CONEXAO = "mongodb://localhost:27017/";
+	// docker run -d -p 27017:27017 --name mongodb mongo:latest
 	
 	private static void listarBancos(MongoClient mongoClient) {
 		LOG.info("Conectado ao servidor 'localhost' com sucesso!\n");
@@ -210,22 +211,22 @@ public class TesteMongoDB {
 			MongoClient mongoClient = MongoClients.create(CONEXAO);
 			listarBancos(mongoClient);
 
-			MongoDatabase database = mongoClient.getDatabase(BANCO);
-			listarColecoes(database);
+			// MongoDatabase database = mongoClient.getDatabase(BANCO);
+			// listarColecoes(database);
 
-			MongoCollection<Document> pessoas = database.getCollection("pessoas");
-			listarDocumentos(pessoas);
+			// MongoCollection<Document> pessoas = database.getCollection("pessoas");
+			// listarDocumentos(pessoas);
 			
-			listarDocumentosComFiltro(pessoas);
-			listarDocumentosCamposFiltro(pessoas, new String[] { "sobrenome", "Silva" });
+			// listarDocumentosComFiltro(pessoas);
+			// listarDocumentosCamposFiltro(pessoas, new String[] { "sobrenome", "Silva" });
 
-			listarEnderecos(pessoas);
-			listarNascimentos(pessoas);
+			// listarEnderecos(pessoas);
+			// listarNascimentos(pessoas);
 
-			listarHabilidades(pessoas);
+			// listarHabilidades(pessoas);
 
-			inserir(pessoas);
-			listarUmDocumentoCompleto(pessoas, new String[] { "nome", "Herculano" });
+			// inserir(pessoas);
+			// listarUmDocumentoCompleto(pessoas, new String[] { "nome", "Herculano" });
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		}
