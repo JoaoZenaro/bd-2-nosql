@@ -2,8 +2,6 @@ version: '3.8'
 services:
   devcontainer:
     image: mcr.microsoft.com/devcontainers/java:1-17-bullseye
-    build: 
-      context: .
     volumes:
       - ../..:/workspaces:cached      
     network_mode: service:db
