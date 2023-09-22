@@ -31,12 +31,14 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+import com.mongodb.client.model.Updates;
 
 public class TesteMongoDB {
 	private static final Logger LOG = LoggerFactory.getLogger(TesteMongoDB.class);
 	private static final String BANCO = "unoesc2023";
 	private static final String CONEXAO = "mongodb://localhost:27017/";
-	// docker run -d -p 27017:27017 --name mongodb mongo:latest
 	
 	private static void listarBancos(MongoClient mongoClient) {
 		LOG.info("Conectado ao servidor 'localhost' com sucesso!\n");
@@ -72,9 +74,9 @@ public class TesteMongoDB {
 	}
 	
 	private static void listarDocumentosComFiltro(MongoCollection<Document> colecao) {	
-		// Filtra por parte do nome ("ano") e todo o sobrenome ("Silva")	
-		Bson filter = and(Filters.regex("nome", "as", "i"),
-                		  eq("sobrenome", "Ferreira"));
+		// Filtra por parte do nome ("ano") e todo o sobrenome ("da Silva")	
+		Bson filter = and(Filters.regex("nome", "ano", "i"),
+                		  eq("sobrenome", "da Silva"));
 		
 		List<Document> lista = colecao.find(filter).into(new ArrayList<>());
 		System.out.println("=== Foram filtrados " + lista.size() + " documento(s)");
@@ -111,7 +113,7 @@ public class TesteMongoDB {
 		System.out.println("=== Datas de nascimento");
 		
 		Bson projecao = fields(include("nome", "data_nascimento"), excludeId());
-		FindIterable<Document> cursor = colecao.find(eq("data_nascimento", LocalDateTime.of(1990, 10, 15, 16, 30, 0))).projection(projecao);
+		FindIterable<Document> cursor = colecao.find(eq("data_nascimento", LocalDateTime.of(1975, 6, 6, 2, 0, 0))).projection(projecao);
 
 		listarDados(cursor);
 	}
@@ -119,7 +121,7 @@ public class TesteMongoDB {
 	private static void listarHabilidades(MongoCollection<Document> colecao) {
 		System.out.println("=== Habilidades");
 		
-		Bson filtro = Filters.elemMatch("habilidades", Filters.and(Filters.eq("nome", "espanhol"), Filters.eq("nível", "básico")));
+		Bson filtro = Filters.elemMatch("habilidades", Filters.and(Filters.eq("nome", "inglês"), Filters.eq("nível", "avançado")));
 		
 		Bson projecao = Projections.fields(Projections.include("nome", "habilidades"), Projections.excludeId());
 
@@ -165,24 +167,24 @@ public class TesteMongoDB {
 			}
 	    */
 		
-		Document endereco = new Document("rua", "Av.Barão do Rio Branco")
-				.append("numero", 530)
+		Document endereco = new Document("rua", "Rua Sésamo")
+				.append("numero", 111)
 				.append("bairro", "Centro");
 				
-		List<String> telefones = Arrays.asList("(49) 9 9934-7105", "(49) 3563-3233");
+		List<String> telefones = Arrays.asList("(49) 9 1111-2222", "(49) 3333-4444");
 		List<Document> habilidades = Arrays.asList(
-				new Document("nome", "inglês")
-					.append("nível", "avançado"),
-				new Document("nome", "piano")
+				new Document("nome", "espanhol")
+					.append("nível", "básico"),
+				new Document("nome", "python")
 					.append("nível", "básico"));
 
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		Document pessoa = new Document("_id", new ObjectId())
-				.append("nome", "Herculano")
-				.append("sobrenome", "De Biasi")
-				.append("data_nascimento", LocalDateTime.of(1975, 6, 6, 2, 0, 0))
+				.append("nome", "João")
+				.append("sobrenome", "Zenaro")
+				.append("data_nascimento", LocalDateTime.of(2003, 7, 26, 6, 0, 0))
 				.append("curso", new Document("nome", "Ciência da Computação"))
-				.append("notas", Arrays.asList(10, 9, 4.5))
+				.append("notas", Arrays.asList(8, 9, 7))
 				.append("endereco", endereco) 
 				.append("telefones", telefones)
 				.append("habilidades", habilidades);
@@ -206,27 +208,54 @@ public class TesteMongoDB {
 		System.out.println();
 	}
 
+	private static void alterar(MongoCollection<Document> colecao) {
+		Document consulta = new Document("nome", "João2");
+		
+		Bson atualizacoes = Updates.combine(
+                Updates.set("nome", "Zé das Couves"),
+                Updates.set("curso", new Document("nome", "Engenharia de Computação")));
+               
+		UpdateResult resultado = colecao.updateOne(consulta, atualizacoes);
+		
+		System.out.println("Número de documentos com match..: " + resultado.getMatchedCount());
+		System.out.println("Número de documentos modificados: "+resultado.getModifiedCount() + "\n");
+	}
+
+	private static void excluir(MongoCollection<Document> colecao) {
+		Document consulta = new Document("nome", "Zé das Couves");
+		
+		DeleteResult resultado = colecao.deleteMany(consulta);	
+		System.out.println("Número de documentos removidos: " + resultado.getDeletedCount() + "\n");
+	}
+
 	public static void main(String[] args) {
 		try {
 			MongoClient mongoClient = MongoClients.create(CONEXAO);
 			listarBancos(mongoClient);
 
-			// MongoDatabase database = mongoClient.getDatabase(BANCO);
-			// listarColecoes(database);
+			MongoDatabase database = mongoClient.getDatabase(BANCO);
+			listarColecoes(database);
 
-			// MongoCollection<Document> pessoas = database.getCollection("pessoas");
-			// listarDocumentos(pessoas);
+			MongoCollection<Document> pessoas = database.getCollection("pessoas");
+			listarDocumentos(pessoas);
 			
-			// listarDocumentosComFiltro(pessoas);
-			// listarDocumentosCamposFiltro(pessoas, new String[] { "sobrenome", "Silva" });
+			listarDocumentosComFiltro(pessoas);
+			listarDocumentosCamposFiltro(pessoas, new String[] { "sobrenome", "da Silva" });
 
-			// listarEnderecos(pessoas);
-			// listarNascimentos(pessoas);
+			listarEnderecos(pessoas);
+			listarNascimentos(pessoas);
 
-			// listarHabilidades(pessoas);
+			listarHabilidades(pessoas);
 
 			// inserir(pessoas);
-			// listarUmDocumentoCompleto(pessoas, new String[] { "nome", "Herculano" });
+			listarUmDocumentoCompleto(pessoas, new String[] { "nome", "João" });
+
+			// alterar(pessoas);
+			listarDocumentos(pessoas);
+
+			// excluir(pessoas);
+			listarDocumentos(pessoas);
+
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		}
