@@ -4,7 +4,6 @@ services:
     image: mcr.microsoft.com/devcontainers/java:1-17-bullseye
     volumes:
       - ../..:/workspaces:cached
-    network_mode: service:db
     command: sleep infinity
 
   redis-server:
