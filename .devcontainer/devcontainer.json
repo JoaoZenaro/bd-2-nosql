@@ -10,9 +10,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				// "vscjava.vscode-java-pack",
-				// "vmware.vscode-boot-dev-pack",
-				// "redhat.vscode-xml"
+				"cweijan.vscode-mysql-client2" // MySQL Explorer for VS Code
 				// "mongodb.mongodb-vscode" // MongoDB Explorer for VS Code
 			]
 		}
