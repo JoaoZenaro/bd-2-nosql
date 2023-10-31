@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/java:1-17-bullseye
+    volumes:
+      - ../..:/workspaces:cached
+    network_mode: service:db
+    command: sleep infinity
+
+  redis-server:
+    image: redis:latest
+    ports:
+      - "6379:6379"
