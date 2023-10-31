@@ -1,17 +1,18 @@
 {
-	"dockerComposeFile": "docker-compose.redis.yml",
+	// "dockerComposeFile": "redis/docker-compose.yml",
+	// "dockerComposeFile": "mongo/docker-compose.yml",
+	"dockerComposeFile": "jdbc/docker-compose.yml",
 	"service": "devcontainer",
-	// Change workspace subfolder according to desired project
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/maven-redis",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/teste-jdbc", // Change workspace subfolder according to desired project
 	// "features": {
 	// 	"ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {} // Mongosh (Shell) Feature
 	// },
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"vscjava.vscode-java-pack",
-				"vmware.vscode-boot-dev-pack",
-				"redhat.vscode-xml"
+				// "vscjava.vscode-java-pack",
+				// "vmware.vscode-boot-dev-pack",
+				// "redhat.vscode-xml"
 				// "mongodb.mongodb-vscode" // MongoDB Explorer for VS Code
 			]
 		}
