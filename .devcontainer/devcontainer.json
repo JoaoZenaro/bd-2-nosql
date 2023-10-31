@@ -12,7 +12,20 @@
 			"extensions": [
 				"cweijan.vscode-mysql-client2" // MySQL Explorer for VS Code
 				// "mongodb.mongodb-vscode" // MongoDB Explorer for VS Code
-			]
+			],
+			"settings": {
+				"mysql.connections": [
+					{
+						"name": "mysql-container",
+						"host": "db",
+						"port": 3306,
+						"user": "root",
+						"password": "password",
+						"database": "",
+						"ssl": false
+					}
+				]
+			}
 		}
 	}
 }
