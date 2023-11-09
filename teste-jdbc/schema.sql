@@ -6,13 +6,14 @@ CREATE TABLE produto (
     nome_prod VARCHAR(50),
     data_cadastro DATE,
     quantidade INT,
-    preco DECIMAL(10, 2)
+    preco DECIMAL(10, 2),
+    observacao VARCHAR(50)
 ) engine=InnoDB;
 
 INSERT INTO produto
-VALUES (1, 'Notebook', '2023-01-01', 5, 666),
-    (2, 'Smartphone', '2023-10-30', 15, 1234.56),
-    (3, 'TV', '2023-04-01', 2, 4999.99),
-    (4, 'Smartband', '2023-04-01', 50, 499.99);
+VALUES (1, 'Notebook', '2023-01-01', 5, 666, "Observacao teste"),
+    (2, 'Smartphone', '2023-10-30', 15, 1234.56, "Observacao teste"),
+    (3, 'TV', '2023-04-01', 2, 4999.99, "Observacao teste"),
+    (4, 'Smartband', '2023-04-01', 50, 499.99, "Observacao teste");
 
 SELECT * FROM produto;
