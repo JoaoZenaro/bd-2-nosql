@@ -1,10 +1,7 @@
 package br.edu.unoesc.app;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.List;
 
 import br.edu.unoesc.dao.ProdutoDAO;
