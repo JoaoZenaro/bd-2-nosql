@@ -2,6 +2,7 @@ package br.edu.unoesc.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class FabricaConexao {
     private static Connection connection = null;
