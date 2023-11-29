@@ -7,17 +7,31 @@ services:
     network_mode: service:db
     command: sleep infinity
 
+  # db:
+  #   image: mysql
+  #   restart: unless-stopped
+  #   ports:
+  #     - '3306:3306'
+  #   expose:
+  #     - '3306'
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+
   db:
-    image: mysql
+    image: postgres
     restart: unless-stopped
     ports:
-      - '3306:3306'
+      - '5432:5432'
     expose:
-      - '3306'
+      - '5432'
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
 
 volumes:
-  mysql_data:
+  # mysql_data:
+  postgres_data:
