@@ -9,20 +9,17 @@ public class Produto {
     private Date dataCadastro;
     private Integer quantidade;
     private BigDecimal preco;
-    private String observacao;
 
     public Produto() {
     }
 
-    public Produto(Integer idProd, String nomeProd, Date dataCadastro, Integer quantidade, BigDecimal preco,
-            String observacao) {
+    public Produto(Integer idProd, String nomeProd, Date dataCadastro, Integer quantidade, BigDecimal preco) {
         super();
         this.idProd = idProd;
         this.nomeProd = nomeProd;
         this.dataCadastro = dataCadastro;
         this.quantidade = quantidade;
         this.preco = preco;
-        this.observacao = observacao;
     }
 
     public Integer getIdProd() {
@@ -65,17 +62,9 @@ public class Produto {
         this.preco = preco;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
     @Override
     public String toString() {
         return "Produto [idProd=" + idProd + ", nomeProd=" + nomeProd + ", dataCadastro=" + dataCadastro
-                + ", quantidade=" + quantidade + ", preco=" + preco + ", observacao=" + observacao + "]";
+                + ", quantidade=" + quantidade + ", preco=" + preco + "]";
     }
 }

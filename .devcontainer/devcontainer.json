@@ -10,7 +10,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"cweijan.vscode-mysql-client2" // MySQL Explorer for VS Code
+				// "cweijan.vscode-mysql-client2" // MySQL Explorer for VS Code
+				"cweijan.vscode-postgresql-client2" // PostgreSQL Explorer for VS Code
 				// "mongodb.mongodb-vscode" // MongoDB Explorer for VS Code
 			]
 		}

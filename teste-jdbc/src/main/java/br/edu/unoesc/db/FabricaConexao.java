@@ -1,8 +1,12 @@
 package br.edu.unoesc.db;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class FabricaConexao {
     private static Connection connection = null;
@@ -12,16 +16,22 @@ public class FabricaConexao {
 
     public static Connection getConnection() {
         try {
-            final String url = "jdbc:mysql://db/unoesc_crud_jdbc";
-            final String usuario = "root";
-            final String senha = "password";
+            if (connection != null && !connection.isClosed()) {
+                return connection;
+            }
+
+            Properties prop = loadProperties();
+            final String url = prop.getProperty("url");
+            final String usuario = prop.getProperty("usuario");
+            final String senha = prop.getProperty("senha");
 
             connection = DriverManager.getConnection(url, usuario, senha);
             System.out.println("Conexão realizada com sucesso!");
 
             return connection;
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        } catch (SQLException | IOException e) {
+            // Converte exceção checada em uma não checada
+            throw new DbException(e.getMessage());
         }
     }
 
@@ -29,10 +39,17 @@ public class FabricaConexao {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Conexão fechada com sucesso!");
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
+            } catch (SQLException e) {
+                throw new DbException(e.getMessage());
             }
+        }
+    }
+
+    private static Properties loadProperties() throws FileNotFoundException, IOException {
+        try (FileInputStream fs = new FileInputStream("db.properties")) {
+            Properties prop = new Properties();
+            prop.load(fs);
+            return prop;
         }
     }
 }
